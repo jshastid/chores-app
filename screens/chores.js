@@ -1,11 +1,16 @@
 
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, ImageBackground } from "react-native";
+import { useState } from "react"
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, ImageBackground, Dimensions } from "react-native";
 import { NavigationBar } from "../src/navigation";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 
+import Animated, { SlideInDown, SlideOutDown } from "react-native-reanimated";
+import { Shadow } from "react-native-shadow-2";
 
 export function Chores() {
+    const [showModal, setShowModal] = useState(false);
+
     const todays = [
         "laundry",
         "cleaning",
@@ -53,14 +58,26 @@ export function Chores() {
 
                 </View>
             </SafeAreaView>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => setShowModal(true)}>
                 <View style={styles.plusBox}>
                     <Ionicons name="add-outline" size={44} color="white" />
                 </View>
                 </TouchableOpacity>
             <NavigationBar />
+            {showModal && <CustomModel toggleModal={() => {setShowModal(!showModal) }}/>}
         </View>
     );
+}
+
+function CustomModel({toggleModal}) {
+
+  return (
+      <Animated.View entering={SlideInDown} exiting={SlideOutDown} style={styles.customModal}>
+        <TouchableOpacity onPress={() => toggleModal()}>
+          <Text>close modal</Text>
+        </TouchableOpacity>
+      </Animated.View>
+  );
 }
 
 
@@ -154,4 +171,13 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "white",
   },
+  customModal: {
+    width: "100%",
+    height: "90%",
+    position: "absolute",
+    backgroundColor: "white",
+    bottom: 0,
+    zIndex: 20,
+    borderRadius: 15,
+  }
 });
