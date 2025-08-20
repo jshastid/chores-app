@@ -73,11 +73,51 @@ function CustomModel({toggleModal}) {
 
   return (
       <Animated.View entering={SlideInDown} exiting={SlideOutDown} style={styles.customModal}>
+        
         <TouchableOpacity onPress={() => toggleModal()}>
+          <View>
           <Text>close modal</Text>
+          </View>
         </TouchableOpacity>
+        <DayButtons />
       </Animated.View>
   );
+}
+
+function DayButtons() {
+
+  const [selected, setSelected] = useState("Today");
+
+  const buttons = [
+    "Today",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+    "Sunday",
+  ];
+
+  return (
+    <View style={styles.dayButtons}>
+      <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+      {buttons.map((button, index) => (
+        <TouchableOpacity key={index} onPress={() => setSelected(button)}>
+          <DayButton name={button} active={button === selected}/>
+        </TouchableOpacity>
+      ))}
+      </ScrollView>
+    </View>
+  )
+}
+
+function DayButton({name, active}) {
+  return (
+    <View style={[styles.dayButton, active && {backgroundColor: "red"}]}>
+        <Text>{name}</Text>
+    </View>
+  )
 }
 
 
@@ -179,5 +219,16 @@ const styles = StyleSheet.create({
     bottom: 0,
     zIndex: 20,
     borderRadius: 15,
+  },
+  dayButton: {
+    borderWidth: 1,
+    borderRadius: 7,
+    backgroundColor: "lightgrey",
+    marginHorizontal: 2,
+    padding: 4,
+  },
+  dayButtons: {
+    display: "flex",
+    flexDirection: "row",
   }
 });
