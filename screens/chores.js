@@ -1,6 +1,6 @@
 
 import { useState } from "react"
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, ImageBackground, Dimensions } from "react-native";
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, ImageBackground, TextInput } from "react-native";
 import { NavigationBar } from "../src/navigation";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
@@ -70,25 +70,7 @@ export function Chores() {
 }
 
 function CustomModel({toggleModal}) {
-
-  return (
-      <Animated.View entering={SlideInDown} exiting={SlideOutDown} style={styles.customModal}>
-        
-        <TouchableOpacity onPress={() => toggleModal()}>
-          <View>
-          <Text>close modal</Text>
-          </View>
-        </TouchableOpacity>
-        <DayButtons />
-      </Animated.View>
-  );
-}
-
-function DayButtons() {
-
-  const [selected, setSelected] = useState("Today");
-
-  const buttons = [
+  const days = [
     "Today",
     "Monday",
     "Tuesday",
@@ -98,11 +80,40 @@ function DayButtons() {
     "Saturday",
     "Sunday",
   ];
+  const categories = [
+    "Laundry",
+    "Cleaning",
+    "Yard Work",
+    "Cooking",
+    "Errands",
+  ];
+
+  return (
+      <Animated.View entering={SlideInDown} exiting={SlideOutDown} style={styles.customModal}>
+        
+        <TouchableOpacity onPress={() => toggleModal()}>
+          <View>
+          <Text>close modal</Text>
+          </View>
+        </TouchableOpacity>
+        <DayButtons categories={days} initial={"Today"} />
+        <DayButtons categories={categories} initial={"Laundry"} />
+        <TextInput placeholder="Name of chore" style={styles.choreInput}/>
+        <TouchableOpacity>
+          <Text>Submit chore</Text>
+        </TouchableOpacity>
+      </Animated.View>
+  );
+}
+
+function DayButtons({categories, initial}) {
+
+  const [selected, setSelected] = useState(initial);
 
   return (
     <View style={styles.dayButtons}>
       <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-      {buttons.map((button, index) => (
+      {categories.map((button, index) => (
         <TouchableOpacity key={index} onPress={() => setSelected(button)}>
           <DayButton name={button} active={button === selected}/>
         </TouchableOpacity>
@@ -230,5 +241,10 @@ const styles = StyleSheet.create({
   dayButtons: {
     display: "flex",
     flexDirection: "row",
+  },
+  choreInput: {
+    borderWidth: 1,
+    borderRadius: 7,
+    padding: 3,
   }
 });
