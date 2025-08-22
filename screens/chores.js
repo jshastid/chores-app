@@ -1,15 +1,18 @@
 
-import { useState } from "react"
+import { useState, useRef } from "react"
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, ImageBackground, TextInput } from "react-native";
 import { NavigationBar } from "../src/navigation";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
+
+import { useStorage } from "../src/persistant";
 
 import Animated, { SlideInDown, SlideOutDown } from "react-native-reanimated";
 import { Shadow } from "react-native-shadow-2";
 
 export function Chores() {
     const [showModal, setShowModal] = useState(false);
+    const [chores, setChores] = useStorage("chores", [""]);
 
     const todays = [
         "laundry",
@@ -18,10 +21,16 @@ export function Chores() {
         "cooking",
         "errands",
     ];
+
     
     return (
         <View style={{flex: 1, backgroundColor: "white"}}>
             <SafeAreaView style={styles.container}>
+                          {chores.map((chore, index) => (
+              <View key={index}>
+                <Text>{chore}</Text>
+              </View>
+            ))}
                 <View style={styles.container}>
                     <Text style={styles.headerText}>
                         Hello James, you have 3 tasks to do today
@@ -70,6 +79,14 @@ export function Chores() {
 }
 
 function CustomModel({toggleModal}) {
+  const chosenDay = useRef("Today");
+  const [text, setText] = useState("");
+  const [chore, setChore] = useStorage("chores", [""]);
+
+  const addChore = (newChore) => {
+    setChore([...chore, newChore]);
+  }
+
   const days = [
     "Today",
     "Monday",
@@ -80,6 +97,8 @@ function CustomModel({toggleModal}) {
     "Saturday",
     "Sunday",
   ];
+
+  const chosenCategory = useRef("Laundry");
   const categories = [
     "Laundry",
     "Cleaning",
@@ -96,19 +115,20 @@ function CustomModel({toggleModal}) {
           <Text>close modal</Text>
           </View>
         </TouchableOpacity>
-        <DayButtons categories={days} initial={"Today"} />
-        <DayButtons categories={categories} initial={"Laundry"} />
-        <TextInput placeholder="Name of chore" style={styles.choreInput}/>
-        <TouchableOpacity>
+        <DayButtons valueHandle={chosenDay} categories={days} initial={"Today"} />
+        <DayButtons valueHandle={chosenCategory} categories={categories} initial={"Laundry"} />
+        <TextInput placeholder="Name of chore" style={styles.choreInput} value={text} onChangeText={setText} />
+        <TouchableOpacity onPress={() => addChore(text)}>
           <Text>Submit chore</Text>
         </TouchableOpacity>
       </Animated.View>
   );
 }
 
-function DayButtons({categories, initial}) {
+function DayButtons({valueHandle, categories, initial}) {
 
   const [selected, setSelected] = useState(initial);
+  valueHandle.current = selected;
 
   return (
     <View style={styles.dayButtons}>
