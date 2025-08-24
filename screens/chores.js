@@ -1,18 +1,23 @@
 
 import { useState, useRef } from "react"
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, ImageBackground, TextInput } from "react-native";
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, ImageBackground, TextInput, Dimensions } from "react-native";
 import { NavigationBar } from "../src/navigation";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 
 import { useStorage } from "../src/persistant";
 
-import Animated, { SlideInDown, SlideOutDown } from "react-native-reanimated";
+import Animated, { SlideInDown, SlideOutDown, FadeIn, FadeOut } from "react-native-reanimated";
 import { Shadow } from "react-native-shadow-2";
 
 export function Chores() {
     const [showModal, setShowModal] = useState(false);
     const [chores, setChores] = useStorage("chores", [""]);
+    const [showChorePage, setChorePage] = useState(false);
+
+    let choreValues = {};
+    choreValues["key1"] = "value1";
+    console.log("hi")
 
     const todays = [
         "laundry",
@@ -31,6 +36,7 @@ export function Chores() {
                 <Text>{chore}</Text>
               </View>
             ))}
+            <TouchableOpacity onPress={() => setChores([])}><Text>Clear</Text></TouchableOpacity>
                 <View style={styles.container}>
                     <Text style={styles.headerText}>
                         Hello James, you have 3 tasks to do today
@@ -44,7 +50,9 @@ export function Chores() {
                     <ScrollView horizontal showsHorizontalScrollIndicator={false}>
                         <View style={styles.choreList}>
                             {todays.map((str, index) => (
-                                <ChoreBox key={index} name={str} completed={0} total={4} />
+                              <TouchableOpacity key={index} onPress={() => setChorePage(true)}>
+                                <ChoreBox name={str} completed={0} total={4} />
+                              </TouchableOpacity>
                             ))}
                         </View>
                     </ScrollView>
@@ -59,7 +67,9 @@ export function Chores() {
                     <ScrollView horizontal showsHorizontalScrollIndicator={false}>
                         <View style={styles.choreList}>
                             {todays.map((str, index) => (
-                                <ChoreBox key={index} name={str} completed={0} total={4} />
+                              <TouchableOpacity key={index} onPress={() => setChorePage(true)}>
+                                <ChoreBox name={str} completed={0} total={4} />
+                              </TouchableOpacity>
                             ))}
                         </View>
                     </ScrollView>
@@ -74,6 +84,7 @@ export function Chores() {
                 </TouchableOpacity>
             <NavigationBar />
             {showModal && <CustomModel toggleModal={() => {setShowModal(!showModal) }}/>}
+              {showChorePage && <ChorePage toggleChorePage={() => setChorePage(false)} />}
         </View>
     );
 }
@@ -168,6 +179,20 @@ function ChoreBox({name, completed, total}) {
             </ImageBackground>
         </View>
     )
+}
+
+function ChorePage({toggleChorePage}) {
+  const dim = Dimensions.get("screen");
+
+  return (
+    <Animated.View entering={FadeIn} exiting={FadeOut} style={[styles.chorePage, {width: dim.width, height: dim.height}]}>
+      <SafeAreaView>
+        <TouchableOpacity onPress={() => toggleChorePage()}>
+          <Text>close chore page</Text>
+        </TouchableOpacity>
+      </SafeAreaView>
+    </Animated.View>
+  )
 }
 
 
@@ -266,5 +291,11 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 7,
     padding: 3,
+  },
+  chorePage: {
+    position: "absolute",
+    top: 0,
+    backgroundColor: "white",
+    zIndex: 20,
   }
 });
