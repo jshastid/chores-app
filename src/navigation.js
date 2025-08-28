@@ -4,7 +4,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import { Shadow } from "react-native-shadow-2";
 
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useSafeAreaInsets, SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 
 Stack = createNativeStackNavigator()
@@ -58,6 +58,19 @@ function NavigationButton({button}) {
             <Ionicons name={button.src} size={26} />
             <Text>{button.name}</Text>
         </TouchableOpacity>
+    )
+}
+
+export function NavigationView({children}) {
+    return (
+        <View style={{flex: 1}}>
+            <SafeAreaView style={{flex: 1}}>
+                <View style={{flex: 1}}>
+                    {children}
+                </View>
+            </SafeAreaView>
+            <NavigationBar />
+        </View>
     )
 }
 
