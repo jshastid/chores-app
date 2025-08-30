@@ -61,11 +61,11 @@ function NavigationButton({button}) {
     )
 }
 
-export function NavigationView({children}) {
+export function NavigationView({children, style}) {
     return (
         <View style={{flex: 1}}>
             <SafeAreaView style={{flex: 1}}>
-                <View style={{flex: 1}}>
+                <View style={[{flex: 1}, style]}>
                     {children}
                 </View>
             </SafeAreaView>
