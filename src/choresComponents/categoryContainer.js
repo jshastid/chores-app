@@ -2,9 +2,7 @@ import { StyleSheet, View, Text, TouchableOpacity, Image, Dimensions } from "rea
 import { Shadow } from "react-native-shadow-2"
 
 
-
-
-export function CategoryContainer({category, icon}) {
+export function CategoryContainer({category, onPress=() => {}}) {
     const dim = Dimensions.get("screen");
 
     const containerShape = {
@@ -17,15 +15,16 @@ export function CategoryContainer({category, icon}) {
         height: dim.width * 0.25,
     };
 
-
     return (
         <View>
-            <Shadow>
-                <View style={[styles.container, containerShape]}>
-                    <Image style={iconShape}  resizeMode="contain" source={require("../../assets/lawn-mower.png")} />
-                    <Text>temporary text</Text>
-                </View>
-            </Shadow>
+            <TouchableOpacity activeOpacity={0.6} onPress={onPress}>
+                <Shadow>
+                    <View style={[styles.container, containerShape]}>
+                        <Image style={iconShape}  resizeMode="contain" source={category.img} />
+                        <Text style={styles.text}>{category.name}</Text>
+                    </View>
+                </Shadow>
+            </TouchableOpacity>
         </View>
     );
 }
@@ -38,5 +37,9 @@ const styles = StyleSheet.create({
         display: "flex",
         justifyContent: "space-evenly",
         alignItems: "center"
+    },
+    text: {
+        fontSize: 20,
+        fontWeight: "bold",
     }
-})
+});
