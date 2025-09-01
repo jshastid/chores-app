@@ -2,8 +2,10 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import { NavigationBar, NavigationProvider } from './src/navigation';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 import { Chores } from "./screens/chores"
+import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 
 function Home() {
   
@@ -64,9 +66,13 @@ export default function App() {
   ];
 
   return (
-    <SafeAreaProvider>
-      <NavigationProvider screens={screens} />
-    </SafeAreaProvider>
+    <GestureHandlerRootView>
+    <BottomSheetModalProvider>
+      <SafeAreaProvider>
+        <NavigationProvider screens={screens} />
+      </SafeAreaProvider>
+    </BottomSheetModalProvider>
+    </GestureHandlerRootView>
   );
 }
 

@@ -1,14 +1,12 @@
-import { useState } from "react"
-import { View, Text, Dimensions, TouchableOpacity } from "react-native"
+import { useState, useRef } from "react"
+import { StyleSheet, View, Text, Dimensions, TouchableOpacity } from "react-native"
 import { NavigationView } from "../src/navigation"
-import { useStorage } from "../src/persistant"
-import { Shadow } from "react-native-shadow-2";
 
 import { CategoryContainer, ChoreModal } from "../src/chores-components";
 
 export function Chores() {
   console.log("rendered chore page");
-  const [showModal, setShowModal] = useState(true);
+  const bottomSheetRef = useRef(null);
 
   const categories = [
     {name: "Outdoors", img: require("../assets/lawn-mower.png")},
@@ -19,15 +17,30 @@ export function Chores() {
 
   return (
     <>
-      <NavigationView style={{display: "flex", flexDirection: "row", flexWrap: "wrap", gap: 15, justifyContent: "space-evenly"}}>
+      <NavigationView style={styles.navContainer}>
+        <Text style={{textAlign: "left"}}>Hello James, you have 7 tasks to do today</Text>
+
         {categories.map((category, index) => (
           <CategoryContainer category={category} key={index} />
         ))}
-        <TouchableOpacity onPress={() => {setShowModal(true)}}>
+
+        <TouchableOpacity onPress={() => { bottomSheetRef.current?.present() }}>
           <Text>show Modal</Text>
         </TouchableOpacity>
+
       </NavigationView>
-      {showModal && <ChoreModal closeModal={() => setShowModal(false)}/>}
+      <ChoreModal theref={bottomSheetRef} />
     </>
   )
 }
+
+
+const styles = StyleSheet.create({
+  navContainer: {
+    display: "flex", 
+    flexDirection: "row", 
+    flexWrap: "wrap", 
+    gap: 15, 
+    justifyContent: "space-evenly"
+  }
+});

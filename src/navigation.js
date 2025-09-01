@@ -61,7 +61,7 @@ function NavigationButton({button}) {
     )
 }
 
-export function NavigationView({children, style}) {
+export function NavigationView({children, modal, style}) {
     return (
         <View style={{flex: 1}}>
             <SafeAreaView style={{flex: 1}}>
@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-evenly",
         alignItems: "center",
-        zIndex: 20,
+        zIndex: 0,
     },
     navBarButton: {
         display: "flex",
