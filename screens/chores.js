@@ -2,11 +2,12 @@ import { useState, useRef } from "react"
 import { StyleSheet, View, Text, Dimensions, TouchableOpacity } from "react-native"
 import { NavigationView } from "../src/navigation"
 
-import { CategoryContainer, ChoreModal } from "../src/chores-components";
+import { CategoryContainer, ChoreModal, ChoreSideScreen } from "../src/chores-components";
 
 export function Chores() {
   console.log("rendered chore page");
   const bottomSheetRef = useRef(null);
+  const [showSide, setSide] = useState(true);
 
   const categories = [
     {name: "Outdoors", img: require("../assets/lawn-mower.png")},
@@ -16,12 +17,11 @@ export function Chores() {
   ];
 
   return (
-    <>
+    <View style={{flex: 1}}>
       <NavigationView style={styles.navContainer}>
         <Text style={{textAlign: "left"}}>Hello James, you have 7 tasks to do today</Text>
-
         {categories.map((category, index) => (
-          <CategoryContainer category={category} key={index} />
+          <CategoryContainer onPress={() => setSide(true)} category={category} key={index} />
         ))}
 
         <TouchableOpacity onPress={() => { bottomSheetRef.current?.present() }}>
@@ -30,7 +30,8 @@ export function Chores() {
 
       </NavigationView>
       <ChoreModal theref={bottomSheetRef} />
-    </>
+      {showSide && (<ChoreSideScreen closeScreen={() => setSide(false)} />)}
+    </View>
   )
 }
 
