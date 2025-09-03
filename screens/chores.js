@@ -3,11 +3,13 @@ import { StyleSheet, View, Text, Dimensions, TouchableOpacity } from "react-nati
 import { NavigationView } from "../src/navigation"
 
 import { CategoryContainer, ChoreModal, ChoreSideScreen } from "../src/chores-components";
+import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
 
 export function Chores() {
   console.log("rendered chore page");
   const bottomSheetRef = useRef(null);
-  const [showSide, setSide] = useState(true);
+  const [showSide, setSide] = useState(false);
+  const [showBackdrop, setBackdrop] = useState(false);
 
   const categories = [
     {name: "Outdoors", img: require("../assets/lawn-mower.png")},
@@ -15,6 +17,12 @@ export function Chores() {
     {name: "Laundry", img: require("../assets/laundry-machine.png")},
     {name: "Kitchen", img: require("../assets/dish-washing.png")},
   ];
+
+  const dim = Dimensions.get("screen");
+  const backdropShape = {
+    width: dim.width,
+    height: dim.height,
+  };
 
   return (
     <View style={{flex: 1}}>
@@ -24,13 +32,14 @@ export function Chores() {
           <CategoryContainer onPress={() => setSide(true)} category={category} key={index} />
         ))}
 
-        <TouchableOpacity onPress={() => { bottomSheetRef.current?.present() }}>
+        <TouchableOpacity onPress={() => { bottomSheetRef.current?.present(); setBackdrop(true) }}>
           <Text>show Modal</Text>
         </TouchableOpacity>
 
       </NavigationView>
-      <ChoreModal theref={bottomSheetRef} />
+      <ChoreModal setBackdrop={setBackdrop} theref={bottomSheetRef} />
       {showSide && (<ChoreSideScreen closeScreen={() => setSide(false)} />)}
+      {showBackdrop && <Animated.View entering={FadeIn} exiting={FadeOut} style={[styles.backdrop, backdropShape]} />}
     </View>
   )
 }
@@ -43,5 +52,9 @@ const styles = StyleSheet.create({
     flexWrap: "wrap", 
     gap: 15, 
     justifyContent: "space-evenly"
-  }
+  },
+  backdrop: {
+    position: "absolute",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
 });

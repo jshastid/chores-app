@@ -1,26 +1,28 @@
+import { useCallback } from "react";
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
-import { BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet"
+import { BottomSheetModal, BottomSheetView, BottomSheetBackdrop } from "@gorhom/bottom-sheet"
 
 
-export function ChoreModal({theref}) {
-    // ref
+export function ChoreModal({setBackdrop, theref}) {
+    
+  // won't be added until reanimated is patched
+  //const backdrop = () => useCallback((props) =>
+  //  (<BottomSheetBackdrop {...props} appearsOnIndex={0} disappearsOnIndex={-1} />), []
+  //);
 
-
-
-   
-    // renders
-    return (
-        <BottomSheetModal
-            ref={theref}
-            enablePanDownToClose
-            snapPoints={['90%']}
-            enableDynamicSizing={false}
-        >
-            <BottomSheetView style={styles.contentContainer}>
-            <Text>Awesome 🎉</Text>
-            </BottomSheetView>
-        </BottomSheetModal>
-    );
+  return (
+      <BottomSheetModal
+          ref={theref}
+          enablePanDownToClose
+          onDismiss={() => setBackdrop(false)}
+          snapPoints={['90%']}
+          enableDynamicSizing={false}
+      >
+          <BottomSheetView style={styles.contentContainer}>
+          <Text>Awesome 🎉</Text>
+          </BottomSheetView>
+      </BottomSheetModal>
+  );
 }
 
 
