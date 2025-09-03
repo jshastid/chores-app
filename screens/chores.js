@@ -1,6 +1,7 @@
 import { useState, useRef } from "react"
 import { StyleSheet, View, Text, Dimensions, TouchableOpacity } from "react-native"
 import { NavigationView } from "../src/navigation"
+import { Ionicons } from "@expo/vector-icons";
 
 import { CategoryContainer, ChoreModal, ChoreSideScreen } from "../src/chores-components";
 import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
@@ -32,8 +33,13 @@ export function Chores() {
           <CategoryContainer onPress={() => setSide(true)} category={category} key={index} />
         ))}
 
-        <TouchableOpacity onPress={() => { bottomSheetRef.current?.present(); setBackdrop(true) }}>
-          <Text>show Modal</Text>
+        <TouchableOpacity 
+          onPress={() => { bottomSheetRef.current?.present(); setBackdrop(true) }}
+          style={styles.addPos}
+        >
+          <View style={styles.addContainer}>
+            <Ionicons name="add" style={styles.addText} />
+          </View>
         </TouchableOpacity>
 
       </NavigationView>
@@ -56,5 +62,26 @@ const styles = StyleSheet.create({
   backdrop: {
     position: "absolute",
     backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
+  addPos: {
+    position: "absolute",
+    bottom: 75,
+    right: 20,
+  },
+  addContainer: {
+    width: 60,
+    height: 60,
+    padding: 0,
+    borderRadius: 35,
+    backgroundColor: "#254ed3ff",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  addText: {
+    fontWeight: "bold",
+    fontSize: 39,
+    textAlign: "center",
+    color: "white",
   },
 });
