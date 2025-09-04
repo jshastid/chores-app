@@ -1,35 +1,52 @@
-import { useCallback } from "react";
-import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
-import { BottomSheetModal, BottomSheetView, BottomSheetBackdrop } from "@gorhom/bottom-sheet"
+import { StyleSheet, Text, View, TouchableOpacity, Dimensions } from "react-native";
+import Animated, { SlideInDown, SlideOutDown, FadeIn, FadeOut } from "react-native-reanimated"
 
 
-export function ChoreModal({setBackdrop, theref}) {
-    
-  // won't be added until reanimated is patched
-  //const backdrop = () => useCallback((props) =>
-  //  (<BottomSheetBackdrop {...props} appearsOnIndex={0} disappearsOnIndex={-1} />), []
-  //);
+export function ChoreModal({hideModal}) {
+  const dim = Dimensions.get("screen");
+  
+  const backdropShape = {
+    width: dim.width,
+    height: dim.height,
+  };
 
   return (
-      <BottomSheetModal
-          ref={theref}
-          enablePanDownToClose
-          onDismiss={() => setBackdrop(false)}
-          snapPoints={['90%']}
-          enableDynamicSizing={false}
+    <>
+      <Animated.View 
+        style={[styles.backdrop, backdropShape]}
+        entering={FadeIn}
+        exiting={FadeOut}
       >
-          <BottomSheetView style={styles.contentContainer}>
-          <Text>Awesome 🎉</Text>
-          </BottomSheetView>
-      </BottomSheetModal>
+        <TouchableOpacity 
+          activeOpacity={1} 
+          style={{flex: 1}} 
+          onPress={() => hideModal()}
+        />
+      </Animated.View>
+
+      <Animated.View 
+        style={styles.modalContainer}
+        entering={SlideInDown}
+        exiting={SlideOutDown}
+      >
+
+      </Animated.View>
+    </>
   );
 }
 
 
 const styles = StyleSheet.create({
-  contentContainer: {
-    flex: 1,
-    padding: 36,
-    alignItems: 'center',
+  backdrop: {
+    position: "absolute",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
-})
+  modalContainer: {
+    position: "absolute",
+    bottom: 0,
+    width: "100%",
+    height: "80%",
+    backgroundColor: "white",
+    borderRadius: 35,
+  },
+});
