@@ -11,10 +11,9 @@ export function CategoryContainer({category, onPress=() => {}}) {
     };
 
     const iconShape = {
-        width: dim.width * 0.25,
+        width: dim.width * 0.24,
         height: dim.width * 0.25,
     };
-
     return (
         <View>
             <TouchableOpacity activeOpacity={0.6} onPress={onPress}>
