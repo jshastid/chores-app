@@ -4,7 +4,6 @@ import { NavigationView } from "../src/navigation"
 import { Ionicons } from "@expo/vector-icons";
 
 import { CategoryContainer, ChoreModal, ChoreSideScreen } from "../src/chores-components";
-import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
 
 export function Chores() {
   console.log("rendered chore page");
