@@ -2,7 +2,7 @@ import { StyleSheet, View, Text, TouchableOpacity, Dimensions } from "react-nati
 
 
 export function MicroCategoryContainer({onPress, name, styleData}) {
-    const dim = Dimensions.get("screen");
+    const dim = Dimensions.get("window");
 
     const shape = {
         width: dim.width * 0.05,
