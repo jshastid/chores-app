@@ -48,6 +48,9 @@ export function ChoreModal({hideModal}) {
           placeholder="Add details about the chore and any notes to help you remember"
           style={styles.inputShape}
         />
+        <TouchableOpacity onPress={() => hideModal()} style={styles.cancelButton}>
+          <Text style={styles.cancelText}>Cancel</Text>
+        </TouchableOpacity>
 
       </SafeAreaView>
 
@@ -87,5 +90,17 @@ const styles = StyleSheet.create({
     margin: "auto",
     backgroundColor: "#f7f7f7ff",
     borderColor: "#ccccccff"
+  },
+  cancelButton: {
+    backgroundColor: "#dd2424ff",
+    padding: "3%",
+    paddingHorizontal: "5%",
+    borderRadius: 12,
+    margin: "auto",
+    marginTop: "5%"
+  },
+  cancelText: {
+    fontWeight: "bold",
+    color: "white",
   }
 });
