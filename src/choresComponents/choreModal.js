@@ -45,9 +45,14 @@ export function ChoreModal({hideModal}) {
           Chore Description
         </Text>
         <TextInput 
+          multiline
           placeholder="Add details about the chore and any notes to help you remember"
-          style={styles.inputShape}
+          style={[styles.inputShape, {height: "30%"}]}
         />
+
+        <Text style={styles.inputLabel}>
+          Chore Category
+        </Text>
         <TouchableOpacity onPress={() => hideModal()} style={styles.cancelButton}>
           <Text style={styles.cancelText}>Cancel</Text>
         </TouchableOpacity>
@@ -77,7 +82,6 @@ const styles = StyleSheet.create({
   inputLabel: {
     fontWeight: "bold",
     marginLeft: "5%",
-    marginBottom: 2,
     fontSize: 16,
   },
   primaryBody: {
@@ -86,10 +90,12 @@ const styles = StyleSheet.create({
   inputShape: {
     borderWidth: 1,
     borderRadius: 14,
+    padding: "3%",
     width: "90%",
     margin: "auto",
+    marginTop: 0,
     backgroundColor: "#f7f7f7ff",
-    borderColor: "#ccccccff"
+    borderColor: "#ccccccff",
   },
   cancelButton: {
     backgroundColor: "#dd2424ff",
@@ -97,7 +103,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: "5%",
     borderRadius: 12,
     margin: "auto",
-    marginTop: "5%"
   },
   cancelText: {
     fontWeight: "bold",
