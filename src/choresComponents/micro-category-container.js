@@ -8,6 +8,7 @@ export function MicroCategoryContainer({onPress, name, styleData}) {
         width: dim.width * 0.05,
         height: dim.width * 0.05,
     };
+    // code was lost due to npm pushing emergency fix regarding recent supply-chain attack
 
     return (
         <TouchableOpacity style={[styles.container, shape]}>
